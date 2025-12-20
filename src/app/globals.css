@@ -40,3 +40,23 @@ a {
     color-scheme: dark;
   }
 }
+
+footer {
+    /* position: fixed; */
+    /* height: 100px; */
+    /* bottom: 0; */
+    width: 100%;
+    text-align: center;
+    color: grey;
+}
+
+h1 {
+  font-size: 7vmin !important;
+}
+/* h2 {
+  font-size: 6.0vh !important;
+} */
+p {
+  font-size: 3.5vmin;
+  font-weight: 200;
+}
