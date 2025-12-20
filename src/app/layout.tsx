@@ -3,7 +3,7 @@ import "./globals.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import { Nav, Navbar } from "react-bootstrap";
 // import Navbar from "react-bootstrap/Navbar";
-import { Col, Container, Nav, Navbar, Row } from "react-bootstrap";
+import { Col, Container, Image, Nav, Navbar, Row } from "react-bootstrap";
 import { IoLogoReact, IoOpenOutline } from "react-icons/io5";
 import { usePathname } from "next/navigation";
 
@@ -36,7 +36,7 @@ export default function RootLayout(props: LayoutProps<"/">) {
         </Container>
         <Container>
           <footer>
-            Made with ❤️ and <IoLogoReact/> in Philadelphia, PA
+            Made with ❤️ and <Image src="/nextjs-icon-dark-background.svg" height={20} />  in Philadelphia, PA
           </footer>
         </Container>
       </body>

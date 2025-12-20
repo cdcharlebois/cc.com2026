@@ -16,10 +16,7 @@ export default function Home() {
         <h1 style={{margin:0}}>Hello, there!</h1>
       </div>
 
-
-
-
-      <p>I'm Conner Charlebois and I'm an integration engineer with Stripe.
+      <p>I'm Conner Charlebois and I'm an integration engineer at Stripe.
         I help our most ambitious users integrate Stripe into their existing
         technology landscapes to drive better conversion and a more seamless
         customer experience.
