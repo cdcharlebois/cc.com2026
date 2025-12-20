@@ -5,7 +5,7 @@ import { IoOpen, IoOpenOutline } from "react-icons/io5"
 export default (props: { post: IBlogHeader }) => {
     return <Col xs={12} sm={6} md={4}>
         <Card style={{marginBottom: 12}}>
-            <Card.Img variant="top" src={props.post.imageUrl} />
+            <Card.Img variant="top" src={props.post.imageUrl as string} />
             <Card.Body>
                 <Card.Title>{props.post.title}</Card.Title>
                 <Card.Subtitle>{new Date(props.post.date).toDateString()}</Card.Subtitle>
