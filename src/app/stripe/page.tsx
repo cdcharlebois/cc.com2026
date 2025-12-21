@@ -21,6 +21,15 @@ export default () => {
                     </Card.Body>
                 </Card>
             </Col>
+            <Col sm={2} md={3}>
+                <Card>
+                    <Card.Body>
+                        <Card.Title>Susbcription Checkout</Card.Title>
+                        <Card.Subtitle></Card.Subtitle>
+                        <Card.Link href="/stripe/subscription-checkout">Show <IoArrowForward/></Card.Link>
+                    </Card.Body>
+                </Card>
+            </Col>
         </Row>
         {/* <ul>
             <p><li>Cart</li></p>
