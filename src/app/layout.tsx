@@ -25,7 +25,7 @@ export default function RootLayout(props: LayoutProps<"/">) {
             </Navbar.Collapse>
           </Container>
         </Navbar>
-        <Container className="mt-4" style={{maxWidth: 1024}}>
+        <Container style={{maxWidth: 1024}} className="mt-4">
           {/* <Row>
           <Col lg={2}></Col>
           <Col lg={8}> */}
