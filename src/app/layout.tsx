@@ -34,7 +34,7 @@ export default function RootLayout(props: LayoutProps<"/">) {
           <Col lg={2}></Col>
           </Row> */}
         </Container>
-        <Container>
+        <Container className="mt-5">
           <footer>
             Made with ❤️ and <Image src="/nextjs-icon-dark-background.svg" height={20} />  in Philadelphia, PA
           </footer>

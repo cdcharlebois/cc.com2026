@@ -1,15 +1,19 @@
 "use client"
 
 import CheckoutForm from "@/components/CheckoutForm";
+import ProductCard from "@/components/ProductCard";
+import { createSubscription, invoicePreview, paymentElement } from "@/utils/codeSnippets";
+import { formatPrice } from "@/utils/misc";
 import { Elements, PaymentElement } from "@stripe/react-stripe-js";
 import { CheckoutProvider } from "@stripe/react-stripe-js/checkout";
 import { loadStripe } from "@stripe/stripe-js";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react"
 import { Alert, Button, Col, Row } from "react-bootstrap";
+import {Prism as SyntaxHighlighter} from "react-syntax-highlighter";
+import { atomOneDark, dark } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import Stripe from "stripe";
-
-const formatPrice = (amount: number) => `$ ${(amount / 100).toFixed(2)}`
 
 export default () => {
     // const pathname = usePathname();
@@ -72,17 +76,26 @@ export default () => {
     return (
         <>
             <h1>Susbcription Checkout</h1>
-            {products.map(p => <div key={p.id}>{p.id} - {p.name} - {p.default_price?.toString() || ""} <Button onClick={() => handleAddToCart(p.default_price?.toString() || "")}>Add to cart</Button></div>)}
-
+            <Row>
+                {products.map(p => <ProductCard
+                    key={p.id}
+                    product={p}
+                    buttonText="Add to Cart"
+                    onClick={(p) => handleAddToCart((p.default_price! as Stripe.Price).id as string)}
+                    width={3}
+                />)}
+            </Row>
             <Row>
                 <Col md={4}>
                     <h2>Cart</h2>
-                    {previewInvoice && <Alert variant="light">
-                        <div>Total: {formatPrice(previewInvoice?.total || 0)}</div>
-                        {previewInvoice.lines.data.map(line => <div key={line.id}>
-                            {line.description} - {line.amount}
-                        </div>)}
-                    </Alert>}
+                    <Alert variant="light">
+                        {previewInvoice ? <>
+                            <div>Total: {formatPrice(previewInvoice?.total || 0)}</div>
+                            {previewInvoice.lines.data.map(line => <div key={line.id}>
+                                {line.description} - {line.amount}
+                            </div>)}
+                        </> : <div>Your cart is empty</div>}
+                    </Alert>
                 </Col>
                 <Col md={8}>
                     <h2>Checkout</h2>
@@ -97,11 +110,39 @@ export default () => {
                         <CheckoutForm
                             returnUrl="http://localhost:3000/stripe/subscription-checkout"
                             submitButtonText={`Subscribe for ${formatPrice(previewInvoice?.total || 0)}`}
+                            submitButtonActive={previewInvoice ? previewInvoice.total > 0 : false}
                             paymentIntentGetter={getPaymentIntent}
                         />
                     </Elements>
                 </Col>
             </Row>
+            <Alert variant="success">
+                <h2>Invoice Preview</h2>
+                <div>
+                    The "Cart" here is shown as a result of generating an invoice preview when a new item is added to the cart
+                </div>
+                <SyntaxHighlighter language="typescript" style={oneDark}>
+                    {invoicePreview}
+                </SyntaxHighlighter>
+            </Alert>
+
+            <Alert variant="info">
+                <h2>Payment Element</h2>
+                <div>The payment element is loaded here in a deferred configuration, with intial values provided for rendering but then ignored. Clicking on the submit button triggers a call to the server to create the subscription and receive the <code>client_secret</code> for the payment intent tied to the first invoice.</div>
+                <SyntaxHighlighter language="tsx" style={oneDark}>
+                    {paymentElement}
+                </SyntaxHighlighter>
+            </Alert>
+
+            <Alert variant="success">
+                <h2>Create Subscription</h2>
+                <div>
+                    Create a customer (since we need one to create the subscription) and the create the subscription in a <code>default_incomplete</code> status. Expand the latest invoice to get the confirmation secret and return it to the client for confirmation in the payment element.
+                </div>
+                <SyntaxHighlighter language="typescript" style={oneDark}>
+                    {createSubscription}
+                </SyntaxHighlighter>
+            </Alert>
 
 
 

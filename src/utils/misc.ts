@@ -1,0 +1,1 @@
+export const formatPrice = (amount: number) => `$ ${(amount / 100).toFixed(2)}`

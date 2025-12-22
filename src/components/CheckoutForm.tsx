@@ -3,6 +3,7 @@ import { Button } from "react-bootstrap"
 
 interface ICheckoutFormProps {
     submitButtonText: string,
+    submitButtonActive: boolean,
     paymentIntentGetter: () => Promise<string>, // return the client secret
     returnUrl: string
 }
@@ -21,7 +22,7 @@ export default (props: ICheckoutFormProps) => {
             return;
         }
         const clientSecret = await props.paymentIntentGetter();
-        console.log({clientSecret})
+        console.log({ clientSecret })
         const { error: paymentError } = await stripe.confirmPayment({
             elements,
             clientSecret,
@@ -34,6 +35,9 @@ export default (props: ICheckoutFormProps) => {
 
     return <>
         <PaymentElement />
-        <Button onClick={handleSubmitPayment}>{props.submitButtonText}</Button>
+        <div className="d-grid mt-2">
+            <Button disabled={!props.submitButtonActive} onClick={handleSubmitPayment}>{props.submitButtonText}</Button>
+        </div>
+
     </>
 }
