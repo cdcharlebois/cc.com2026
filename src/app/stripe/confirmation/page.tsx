@@ -1,16 +1,14 @@
 "use client";
 
 import { post } from "@/utils/api";
-import { useParams, useSearchParams } from "next/navigation";
-import { connection } from "next/server";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import Stripe from "stripe";
 
-export default async () => {
-  await connection();
-  const params = useSearchParams();
-  const payment_intent = params.get("payment_intent");
+export default function Page({ searchParams }: { 
+  searchParams: Promise<{[key: string]: string}> }
+) {
 
+  const payment_intent = use(searchParams).payment_intent
   const [pi, setPi] = useState<Stripe.PaymentIntentsResource>();
   useEffect(() => {
     (async () => {
