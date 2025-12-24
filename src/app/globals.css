@@ -42,21 +42,30 @@ a {
 }
 
 footer {
-    /* position: fixed; */
-    /* height: 100px; */
-    /* bottom: 0; */
-    width: 100%;
-    text-align: center;
-    color: grey;
+  /* position: fixed; */
+  /* height: 100px; */
+  /* bottom: 0; */
+  width: 100%;
+  text-align: center;
+  color: grey;
 }
 
 h1 {
-  font-size: 9vmin !important;
+  font-size: 10.24vw !important;
 }
 /* h2 {
   font-size: 6.0vh !important;
 } */
 p {
-  font-size: 4.5vmin;
+  font-size: 4.4vw;
   font-weight: 200;
+}
+@media screen and (min-width: 1024px) {
+  h1 {
+    font-size: 100px !important;
+  }
+  p {
+    font-size: 45px;
+    font-weight: 200;
+  }
 }
