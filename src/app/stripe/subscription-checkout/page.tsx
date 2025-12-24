@@ -2,16 +2,15 @@
 
 import CheckoutForm from "@/components/CheckoutForm";
 import ProductCard from "@/components/ProductCard";
+import { post } from "@/utils/api";
 import { createSubscription, invoicePreview, paymentElement } from "@/utils/codeSnippets";
 import { formatPrice } from "@/utils/misc";
 import { Elements, PaymentElement } from "@stripe/react-stripe-js";
 import { CheckoutProvider } from "@stripe/react-stripe-js/checkout";
 import { loadStripe } from "@stripe/stripe-js";
-import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react"
 import { Alert, Button, Col, Row } from "react-bootstrap";
 import {Prism as SyntaxHighlighter} from "react-syntax-highlighter";
-import { atomOneDark, dark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import Stripe from "stripe";
 
@@ -37,42 +36,33 @@ export default () => {
         if (newCart.length === 0) {
             return;
         }
-        const res = await fetch("/stripe/api/invoice-preview", {
-            method: "POST",
-            body: JSON.stringify({
+        const data = await post({
+            url:"/stripe/api/invoice-preview",
+            body:JSON.stringify({
                 cart: newCart.map(priceId => ({
                     price: priceId,
                     quantity: 1
                 }))
-            }),
-            headers: {
-                "Content-Type": "Application/json"
-            }
-        })
-        const data = await res.json();
+            })
+        });
         console.log(data);
         setPreviewInvoice(data.invoicePreview);
         // })()
     }
 
     const getPaymentIntent = async () => {
-        const res = await fetch("/stripe/api/subscriptions", {
-            method: "POST",
+        const data = await post({
+            url: "/stripe/api/subscriptions",
             body: JSON.stringify({
                 cart: cart.map(priceId => ({
                     price: priceId,
                     quantity: 1
                 }))
-            }),
-            headers: {
-                "Content-Type": "Application/json"
-            }
-        })
-        const data = await res.json();
+            })
+        });
         console.log(data);
         return data.clientSecret || "";
     }
-
     return (
         <>
             <h1>Susbcription Checkout</h1>
@@ -107,12 +97,13 @@ export default () => {
                             theme: "night"
                         }
                     }}>
-                        <CheckoutForm
-                            returnUrl="http://localhost:3000/stripe/subscription-checkout"
+                        {typeof window != "undefined" && <CheckoutForm
+                            returnUrl={window.location.origin + "/stripe/confirmation"}
                             submitButtonText={`Subscribe for ${formatPrice(previewInvoice?.total || 0)}`}
                             submitButtonActive={previewInvoice ? previewInvoice.total > 0 : false}
                             paymentIntentGetter={getPaymentIntent}
-                        />
+                        />}
+                        
                     </Elements>
                 </Col>
             </Row>
