@@ -1,6 +1,7 @@
 "use client"
 
 import CheckoutForm from "@/components/CheckoutForm";
+import CodeWell from "@/components/CodeWell";
 import ProductCard from "@/components/ProductCard";
 import { post } from "@/utils/api";
 import { createSubscription, invoicePreview, paymentElement } from "@/utils/codeSnippets";
@@ -10,7 +11,7 @@ import { CheckoutProvider } from "@stripe/react-stripe-js/checkout";
 import { loadStripe } from "@stripe/stripe-js";
 import { useEffect, useState } from "react"
 import { Alert, Button, Col, Row } from "react-bootstrap";
-import {Prism as SyntaxHighlighter} from "react-syntax-highlighter";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import Stripe from "stripe";
 
@@ -37,8 +38,8 @@ export default () => {
             return;
         }
         const data = await post({
-            url:"/stripe/api/invoice-preview",
-            body:JSON.stringify({
+            url: "/stripe/api/invoice-preview",
+            body: JSON.stringify({
                 cart: newCart.map(priceId => ({
                     price: priceId,
                     quantity: 1
@@ -103,40 +104,34 @@ export default () => {
                             submitButtonActive={previewInvoice ? previewInvoice.total > 0 : false}
                             paymentIntentGetter={getPaymentIntent}
                         />}
-                        
+
                     </Elements>
                 </Col>
             </Row>
-            <Alert variant="success">
-                <h2>Invoice Preview</h2>
+
+            <CodeWell
+                title="Invoice Preview"
+                location="server"
+                code={invoicePreview}
+                language="typescript">
                 <div>
                     The "Cart" here is shown as a result of generating an invoice preview when a new item is added to the cart
                 </div>
-                <SyntaxHighlighter language="typescript" style={oneDark}>
-                    {invoicePreview}
-                </SyntaxHighlighter>
-            </Alert>
+            </CodeWell>
 
-            <Alert variant="info">
-                <h2>Payment Element</h2>
-                <div>The payment element is loaded here in a deferred configuration, with intial values provided for rendering but then ignored. Clicking on the submit button triggers a call to the server to create the subscription and receive the <code>client_secret</code> for the payment intent tied to the first invoice.</div>
-                <SyntaxHighlighter language="tsx" style={oneDark}>
-                    {paymentElement}
-                </SyntaxHighlighter>
-            </Alert>
+            <CodeWell language="tsx" code={paymentElement} location="client" title="Payment Element">
+                <>The payment element is loaded here in a deferred configuration, with intial values provided for rendering but then ignored. Clicking on the submit button triggers a call to the server to create the subscription and receive the <code>client_secret</code> for the payment intent tied to the first invoice.</>
+            </CodeWell>
 
-            <Alert variant="success">
-                <h2>Create Subscription</h2>
+            <CodeWell
+                title="Create Subscription"
+                location="server"
+                code={createSubscription}
+                language="typescript">
                 <div>
                     Create a customer (since we need one to create the subscription) and the create the subscription in a <code>default_incomplete</code> status. Expand the latest invoice to get the confirmation secret and return it to the client for confirmation in the payment element.
                 </div>
-                <SyntaxHighlighter language="typescript" style={oneDark}>
-                    {createSubscription}
-                </SyntaxHighlighter>
-            </Alert>
-
-
-
+            </CodeWell>
         </>
     )
 

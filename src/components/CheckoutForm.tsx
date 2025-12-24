@@ -1,5 +1,8 @@
+"use client"
+
 import { PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js"
-import { Button } from "react-bootstrap"
+import { useState } from "react";
+import { Button, Spinner } from "react-bootstrap"
 
 interface ICheckoutFormProps {
     submitButtonText: string,
@@ -11,32 +14,45 @@ interface ICheckoutFormProps {
 export default (props: ICheckoutFormProps) => {
     const elements = useElements();
     const stripe = useStripe();
+    const [loading, setLoading] = useState(false)
 
     const handleSubmitPayment = async () => {
         // event.preventDefault();
         if (!elements || !stripe) {
             return null;
         }
-        const { error: submitError } = await elements.submit();
-        if (submitError) {
-            return;
-        }
-        const clientSecret = await props.paymentIntentGetter();
-        console.log({ clientSecret })
-        const { error: paymentError } = await stripe.confirmPayment({
-            elements,
-            clientSecret,
-            confirmParams: {
-                return_url: props.returnUrl
+        setLoading(true);
+        try {
+            const { error: submitError } = await elements.submit();
+            if (submitError) {
+                throw new Error("Elements.submit failed...")
+                return;
             }
-        })
-        // todo: error handling
+            const clientSecret = await props.paymentIntentGetter();
+            console.log({ clientSecret })
+            const { error: paymentError } = await stripe.confirmPayment({
+                elements,
+                clientSecret,
+                confirmParams: {
+                    return_url: props.returnUrl
+                }
+            })
+            if (paymentError) {
+                throw new Error("Payment failed")
+            }
+            // todo: error handling
+        } catch (e) {
+            console.error(e);
+        } finally {
+            setLoading(false);
+        }
+
     }
 
     return <>
         <PaymentElement />
         <div className="d-grid mt-2">
-            <Button disabled={!props.submitButtonActive} onClick={handleSubmitPayment}>{props.submitButtonText}</Button>
+            <Button disabled={!props.submitButtonActive} onClick={handleSubmitPayment}>{loading ? <Spinner /> : props.submitButtonText}</Button>
         </div>
 
     </>

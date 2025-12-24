@@ -18,12 +18,13 @@ export const paymentElement =
         theme: "night"
     }
 }}>
-    <CheckoutForm
-        returnUrl="http://localhost:3000/stripe/subscription-checkout"
+    {typeof window != "undefined" && <CheckoutForm
+        returnUrl={window.location.origin + "/stripe/confirmation"}
         submitButtonText={\`Subscribe for \${formatPrice(previewInvoice?.total || 0)}\`}
         submitButtonActive={previewInvoice ? previewInvoice.total > 0 : false}
         paymentIntentGetter={getPaymentIntent}
-    />
+    />}
+    
 </Elements>`
 
 export const createSubscription = 
