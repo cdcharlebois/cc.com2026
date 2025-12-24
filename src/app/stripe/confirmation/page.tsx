@@ -2,10 +2,12 @@
 
 import { post } from "@/utils/api";
 import { useParams, useSearchParams } from "next/navigation";
+import { connection } from "next/server";
 import { useEffect, useState } from "react";
 import Stripe from "stripe";
 
-export default () => {
+export default async () => {
+  await connection();
   const params = useSearchParams();
   const payment_intent = params.get("payment_intent");
 
