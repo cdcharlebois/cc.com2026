@@ -1,5 +1,6 @@
 "use client";
 
+import CustomerPortalSessionLink from "@/components/CustomerPortalSessionLink";
 import { Alert, Card, Col, Row } from "react-bootstrap";
 import { IoArrowForward, IoHandRight } from "react-icons/io5";
 
@@ -27,6 +28,15 @@ export default () => {
                         <Card.Title>Susbcription Checkout</Card.Title>
                         <Card.Subtitle></Card.Subtitle>
                         <Card.Link href="/stripe/subscription-checkout">Show <IoArrowForward/></Card.Link>
+                    </Card.Body>
+                </Card>
+            </Col>
+            <Col sm={2} md={3}>
+                <Card>
+                    <Card.Body>
+                        <Card.Title>Customer Portal</Card.Title>
+                        <Card.Subtitle></Card.Subtitle>
+                        <CustomerPortalSessionLink />
                     </Card.Body>
                 </Card>
             </Col>

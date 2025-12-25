@@ -2,7 +2,10 @@ interface IPostParams {
     url: string,
     body: string
 }
-export const post = async ({url, body}: IPostParams) => {
+interface IGetParams {
+    url: string
+}
+export const post = async ({ url, body }: IPostParams) => {
     const res = await fetch(url, {
         method: "POST",
         body,
@@ -10,5 +13,9 @@ export const post = async ({url, body}: IPostParams) => {
             "Content-Type": "Application/json"
         }
     })
+    return await res.json();
+}
+export const get = async ({ url }: IGetParams) => {
+    const res = await fetch (url);
     return await res.json();
 }

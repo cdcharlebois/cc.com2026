@@ -99,7 +99,7 @@ export default () => {
                         }
                     }}>
                         {typeof window != "undefined" && <CheckoutForm
-                            returnUrl={window.location.origin + "/stripe/confirmation"}
+                            returnUrl={window.location.origin + "/stripe/confirmation?sub=true"}
                             submitButtonText={`Subscribe for ${formatPrice(previewInvoice?.total || 0)}`}
                             submitButtonActive={previewInvoice ? previewInvoice.total > 0 : false}
                             paymentIntentGetter={getPaymentIntent}
