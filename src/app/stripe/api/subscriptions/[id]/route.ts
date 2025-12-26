@@ -1,8 +1,8 @@
-import { useParams } from "next/navigation"
-
-
-export const GET = async (req: Request) => {
-    const {id} = useParams()
+export const GET = async (
+    req: Request,
+    { params }: { params: Promise<{ id: string }> }
+) => {
+    const { id } = await params
     console.log(id);
-    return Response.json({ok: true})
+    return Response.json({ ok: true })
 }
