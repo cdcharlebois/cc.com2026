@@ -7,11 +7,6 @@ import { IoArrowForward, IoHandRight } from "react-icons/io5";
 export default () => {
     return <>
         <h1>Stripe</h1>
-        <Alert variant="warning">
-            <p>
-                ⚠️ check back soon for more integration references here
-            </p>
-        </Alert>
         <Row>
             <Col sm={2} md={3}>
                 <Card>
@@ -26,7 +21,7 @@ export default () => {
                 <Card>
                     <Card.Body>
                         <Card.Title>Susbcription Checkout</Card.Title>
-                        <Card.Subtitle></Card.Subtitle>
+                        <Card.Subtitle>Using the payment element and the deferred payment intent flow.</Card.Subtitle>
                         <Card.Link href="/stripe/subscription-checkout">Show <IoArrowForward/></Card.Link>
                     </Card.Body>
                 </Card>
