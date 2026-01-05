@@ -62,7 +62,10 @@ export default () => {
             })
         });
         console.log(data);
-        return data.clientSecret || "";
+        return {
+            clientSecret: data.clientSecret,
+            amount: data.amount
+        };
     }
     return (
         <>
