@@ -28,9 +28,9 @@ export default (props: ICheckoutFormProps) => {
     setLoading(true);
     try {
       const { clientSecret, amount } = await props.paymentIntentGetter();
-      console.log({ clientSecret });
+      console.log("checkout form", { clientSecret, amount });
       elements.update({
-        amount,
+        amount
       });
       const { error: submitError } = await elements.submit();
       if (submitError) {
