@@ -21,6 +21,6 @@ export const POST = async (req: Request) => {
       //@ts-ignore
       susbcription.latest_invoice!.confirmation_secret!.client_secret || null,
     //@ts-ignore
-    amount: susbcription.latest_invoice!.amount,
+    amount: susbcription.latest_invoice!.amount_due,
   });
 };
