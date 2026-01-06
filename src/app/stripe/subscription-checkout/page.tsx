@@ -20,6 +20,7 @@ export default () => {
     const [products, setProducts] = useState<Stripe.Product[]>([]);
     const [cart, setCart] = useState<string[]>([])
     const [previewInvoice, setPreviewInvoice] = useState<Stripe.Invoice>()
+    const [amount, setAmount] = useState(50)
     useEffect(() => {
         (async () => {
             const res = await fetch("/stripe/api/products");
@@ -48,6 +49,7 @@ export default () => {
         });
         console.log(data);
         setPreviewInvoice(data.invoicePreview);
+        setAmount(data.invoicePreview.amount_due)
         // })()
     }
 
@@ -106,6 +108,7 @@ export default () => {
                             submitButtonText={`Subscribe for ${formatPrice(previewInvoice?.total || 0)}`}
                             submitButtonActive={previewInvoice ? previewInvoice.total > 0 : false}
                             paymentIntentGetter={getPaymentIntent}
+                            amountDue={amount}
                         />}
 
                     </Elements>

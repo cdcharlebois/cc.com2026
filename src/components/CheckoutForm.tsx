@@ -5,7 +5,7 @@ import {
   useElements,
   useStripe,
 } from "@stripe/react-stripe-js";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Spinner } from "react-bootstrap";
 
 interface ICheckoutFormProps {
@@ -13,12 +13,22 @@ interface ICheckoutFormProps {
   submitButtonActive: boolean;
   paymentIntentGetter: () => Promise<{ clientSecret: string; amount: number }>; // return the client secret
   returnUrl: string;
+  amountDue: number;
 }
 
 export default (props: ICheckoutFormProps) => {
   const elements = useElements();
   const stripe = useStripe();
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!elements || !stripe) {
+      return;
+    }
+    elements.update({
+      amount: props.amountDue,
+    });
+  }, [props.amountDue]);
 
   const handleSubmitPayment = async () => {
     // event.preventDefault();
@@ -29,10 +39,7 @@ export default (props: ICheckoutFormProps) => {
     try {
       const { clientSecret, amount } = await props.paymentIntentGetter();
       console.log("checkout form", { clientSecret, amount });
-      elements.update({
-        amount,
-        currency:"usd"
-      });
+
       const { error: submitError } = await elements.submit();
       if (submitError) {
         throw new Error("Elements.submit failed...");
