@@ -20,7 +20,6 @@ export default () => {
     const [products, setProducts] = useState<Stripe.Product[]>([]);
     const [cart, setCart] = useState<string[]>([])
     const [previewInvoice, setPreviewInvoice] = useState<Stripe.Invoice>()
-    const [amount, setAmount] = useState(50);
     useEffect(() => {
         (async () => {
             const res = await fetch("/stripe/api/products");
@@ -63,7 +62,6 @@ export default () => {
             })
         });
         console.log(data);
-        setAmount(data.amount)
         return {
             clientSecret: data.clientSecret,
             amount: data.amount
@@ -97,7 +95,7 @@ export default () => {
                     <h2>Checkout</h2>
                     <Elements stripe={loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY as string)} options={{
                         mode: 'subscription',
-                        amount: amount,
+                        amount: 50,
                         currency: 'usd',
                         appearance: {
                             theme: "night"
