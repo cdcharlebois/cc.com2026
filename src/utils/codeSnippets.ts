@@ -1,5 +1,4 @@
-export const invoicePreview = 
-`export const POST = async (req: Request) => {
+export const invoicePreview = `export const POST = async (req: Request) => {
     const { cart } = await req.json()
     const invoicePreview = await stripe.invoices.createPreview({
         subscription_details: {
@@ -7,10 +6,9 @@ export const invoicePreview =
         }
     })
     return Response.json({invoicePreview});
-}`
+}`;
 
-export const paymentElement = 
-`<Elements stripe={loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY as string)} options={{
+export const paymentElement = `<Elements stripe={loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY as string)} options={{
     mode: 'subscription',
     amount: 50,
     currency: 'usd',
@@ -25,10 +23,9 @@ export const paymentElement =
         paymentIntentGetter={getPaymentIntent}
     />}
     
-</Elements>`
+</Elements>`;
 
-export const createSubscription = 
-`export const POST = async (req: Request) => {
+export const createSubscription = `export const POST = async (req: Request) => {
     const { cart } = await req.json()
     const customer = await stripe.customers.create({
         name: "Customer"
@@ -50,4 +47,24 @@ export const createSubscription =
             .confirmation_secret!
             .client_secret || null
     })
-}`
+}`;
+
+export const updateElementsAmount =`
+  // page.tsx
+  const handleAddToCart = async (id: string) => {
+    setCart(newCart);
+
+    // ...
+
+    const { invoice_preview } = await post(/* update cart */);
+    setAmount(invoicePreview.amount_due);
+  };
+
+  // CheckoutForm.tsx
+  // (receives amountDue as a prop)
+  useEffect(() => {
+    elements.update({ // update the amount for digital wallets
+      amount: props.amountDue,
+    });
+  }, [props.amountDue]);
+}`;

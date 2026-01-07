@@ -4,15 +4,12 @@ import CheckoutForm from "@/components/CheckoutForm";
 import CodeWell from "@/components/CodeWell";
 import ProductCard from "@/components/ProductCard";
 import { post } from "@/utils/api";
-import { createSubscription, invoicePreview, paymentElement } from "@/utils/codeSnippets";
+import { createSubscription, invoicePreview, paymentElement, updateElementsAmount } from "@/utils/codeSnippets";
 import { formatPrice } from "@/utils/misc";
-import { Elements, PaymentElement } from "@stripe/react-stripe-js";
-import { CheckoutProvider } from "@stripe/react-stripe-js/checkout";
+import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import { useEffect, useState } from "react"
-import { Alert, Button, Col, Row } from "react-bootstrap";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { useEffect, useState } from "react";
+import { Alert, Col, Row } from "react-bootstrap";
 import Stripe from "stripe";
 
 export default () => {
@@ -122,6 +119,15 @@ export default () => {
                 language="typescript">
                 <div>
                     The "Cart" here is shown as a result of generating an invoice preview when a new item is added to the cart
+                </div>
+            </CodeWell>
+            <CodeWell
+                title="Update Elements"
+                location="client"
+                code={updateElementsAmount}
+                language="typescript">
+                <div>
+                    When the invoice preview is returned to the client, ensure that you call <code>elements.update()</code> setting the new amount. <b>This is crucial to ensure the correct amount is displayed for wallet payments (Google Pay and Apple Pay)</b>
                 </div>
             </CodeWell>
 
