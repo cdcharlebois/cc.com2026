@@ -68,7 +68,7 @@ export default () => {
     }
     return (
         <>
-            <h1>Susbcription Checkout</h1>
+            <h1>Subscription Checkout</h1>
             <Row>
                 {products.map(p => <ProductCard
                     key={p.id}

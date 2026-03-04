@@ -20,7 +20,7 @@ export default () => {
             <Col sm={2} md={3}>
                 <Card>
                     <Card.Body>
-                        <Card.Title>Susbcription Checkout</Card.Title>
+                        <Card.Title>Subscription Checkout</Card.Title>
                         <Card.Subtitle>Using the payment element and the deferred payment intent flow.</Card.Subtitle>
                         <Card.Link href="/stripe/subscription-checkout">Show <IoArrowForward/></Card.Link>
                     </Card.Body>
